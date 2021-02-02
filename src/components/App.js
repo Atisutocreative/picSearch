@@ -4,25 +4,36 @@ import SearchBar from './SearchBar';
 import ImageList from './ImageList';
 
 class App extends React.Component {
-  state = { images: [] };
-  //Callback function
-  onSearchSubmit = async (term) => { 
-    //By putting the async keyword allow us to use the await syntax inside of this function.
-    //async means that a function always returns a promise.
-    const response = await //The keyword await makes JavaScript wait until that promise settles and returns its result.
+
+  state = { images: [], errorMessage: '' };
+
+  onSearchSubmit = async (term) => {
+    const response = await
       unsplash.get('/search/photos', {
         params: { query: term },
       });
     this.setState({ images: response.data.results });
+    if (this.state.images.length == 0) this.setState({ errorMessage: 'No results found! Try again' });
   }
 
   render() {
-    return (
-      <div className="ui container" style={{ marginTop: '10px' }}>
-        <SearchBar onSubmit={this.onSearchSubmit} />
-        <ImageList images={this.state.images}/>
-      </div>
-    );
+    if (this.state.images.length === 0) {
+      return (
+        <div className="ui container" style={{ marginTop: '10px' }}>
+          <SearchBar onSubmit={this.onSearchSubmit} />
+          <ImageList images={this.state.images} />
+          <div>{this.state.errorMessage}</div>
+        </div>
+      );
+    }
+    else {
+      return (
+        <div className="ui container" style={{ marginTop: '10px' }}>
+          <SearchBar onSubmit={this.onSearchSubmit} />
+          <ImageList images={this.state.images} />
+        </div>
+      );
+    }
   }
 }
 
