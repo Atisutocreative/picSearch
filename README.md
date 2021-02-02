@@ -1,4 +1,4 @@
-# [DEMO](https://ugonz86.github.io/pics/)
+# [DEMO](https://ugonz86.github.io/picSearch/)
 
 # Getting Started with Create React App
 
